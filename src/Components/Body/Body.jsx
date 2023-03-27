@@ -5,7 +5,7 @@ import Cart from './Cart';
 const Body = () => {
     const [cartData, setCardData] = useState([]);
     const [product, setProduct] = useState([]);
-    const [localdata, setLocaldata] = useState([]);
+    const [localdata, setLocaldata] = useState();
     useEffect(()=>{
         let localStorageData = localStorage.getItem('cart');
         localStorageData = JSON.parse(localStorageData);
@@ -17,20 +17,17 @@ const Body = () => {
 
     const setdata = (data) =>{
         data && setCardData([...cartData,data]);
-        let cart = [];
-        const cartloacal = localStorage.getItem('cart');
-        if(cartloacal){
-            const cartstring = JSON.stringify(cartData);
-            localStorage.setItem('cart',cartstring);
-            
+        const newdata = [...cartData,data];
+        const newdatastring = JSON.stringify(newdata);
+
+        if(localdata == null){
+            const firstdata = JSON.stringify([data]);
+            localStorage.setItem('cart',firstdata);
         }else{
-            const cartstring = JSON.stringify(cart);
-            localStorage.setItem('cart',cartstring);
+            localStorage.setItem('cart',newdatastring);
         };
-
+        
     };
-
-    console.log(localdata)
     
     return (
         <div className='grid grid-cols-5 w-11/12 mx-auto gap-5 my-5'>
@@ -41,10 +38,12 @@ const Body = () => {
             <div className='border h-fit p-5 rounded-md'>
                 <h1 className='text-center font-semibold text-sm border-b pb-2'>Your Cart Summary</h1>
                 <div className='my-5'>
-                    <h1 className='font-semibold'>Total items: <span className='text-sm'>{cartData.length}</span></h1>
+                    <h1 className='font-semibold border px-2 py-1 rounded-md mb-3 w-fit'>Total items: <span className='text-sm'>{localdata && localdata.length}</span></h1>
 
                     <div className='text-xs'>{localdata && localdata.map(data=> <Cart cartData={data}></Cart>)}</div>
                 </div>
+
+                <h1 className='border-t pt-2'>Total Price: </h1>
             </div>
             
         </div>
