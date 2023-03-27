@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Cart = (props) => {
-    console.log(props.cartData);
     const {name,price} = props.cartData;
     return (
         <table className='table-auto text-left w-full'>

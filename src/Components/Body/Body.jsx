@@ -15,6 +15,8 @@ const Body = () => {
         fetch('../../../public/products.json').then(res=>res.json()).then(data=>setProduct(data));
     },[])
 
+    const totalMoney = localdata && localdata.reduce((previews, current)=>current.price+previews,0);
+
     const setdata = (data) =>{
         data && setCardData([...cartData,data]);
         const newdata = [...cartData,data];
@@ -43,7 +45,7 @@ const Body = () => {
                     <div className='text-xs'>{localdata && localdata.map(data=> <Cart cartData={data}></Cart>)}</div>
                 </div>
 
-                <h1 className='border-t pt-2'>Total Price: </h1>
+                <h1 className='border-t pt-2'>Total Price: ${totalMoney? totalMoney: 0}</h1>
             </div>
             
         </div>
